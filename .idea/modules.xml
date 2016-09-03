@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon.iml" filepath="$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_android.iml" filepath="$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_android.iml" group="SimpleChessBoard_Gluon" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_desktop.iml" group="SimpleChessBoard_Gluon" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_embedded.iml" filepath="$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_embedded.iml" group="SimpleChessBoard_Gluon" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_ios.iml" filepath="$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_ios.iml" group="SimpleChessBoard_Gluon" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_main.iml" group="SimpleChessBoard_Gluon" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SimpleChessBoard_Gluon_test.iml" group="SimpleChessBoard_Gluon" />
+    </modules>
+  </component>
+</project>
