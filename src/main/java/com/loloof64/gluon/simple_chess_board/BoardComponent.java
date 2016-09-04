@@ -17,13 +17,14 @@
  */
 package com.loloof64.gluon.simple_chess_board;
 
+import com.alonsoruibal.chess.Board;
+import com.alonsoruibal.chess.bitboard.BitboardUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -81,7 +82,7 @@ class BoardComponent extends Canvas {
         gc.setFont(font);
         gc.setFill(Color.BLUE);
         for (int rank: RANKS){
-            final char currentCoordChar = RANKS_COORDS[rank];
+            final char currentCoordChar = RANKS_COORDS_CHARS[rank];
             final double x1 = 0.045*cellsSize;
             final double x2 = 8.545*cellsSize;
             final double y = 1.2*cellsSize + (7-rank)*cellsSize;
@@ -90,7 +91,7 @@ class BoardComponent extends Canvas {
             gc.fillText(String.format("%c", currentCoordChar), x2, y);
         }
         for (int file: FILES){
-            final char currentCoordChar = FILES_COORDS[file];
+            final char currentCoordChar = FILES_COORDS_CHARS[file];
             final double x = 0.745*cellsSize + file*cellsSize;
             final double y1 = 0.5*cellsSize;
             final double y2 = 9.0*cellsSize;
@@ -116,21 +117,17 @@ class BoardComponent extends Canvas {
     }
 
     private void drawPieces(){
-        ///////////////TEMPORARY - should be replaced with generic code
-        drawPieceAt('p', 0, 7);
-        drawPieceAt('n', 1, 7);
-        drawPieceAt('b', 2, 7);
-        drawPieceAt('r', 3, 7);
-        drawPieceAt('q', 4, 7);
-        drawPieceAt('k', 5, 7);
-
-        drawPieceAt('P', 0, 6);
-        drawPieceAt('N', 1, 6);
-        drawPieceAt('B', 2, 6);
-        drawPieceAt('R', 3, 6);
-        drawPieceAt('Q', 4, 6);
-        drawPieceAt('K', 5, 6);
-        ///////////////
+        Board board = BoardManager.getInstance().getBoard();
+        for (int rank: RANKS){
+            for (int file: FILES){
+                String algebraicCoords = String.format("%c%c", 'a'+file, '1'+rank);
+                char pieceAtThisCell = board.getPieceAt(BitboardUtils.algebraic2Square(algebraicCoords));
+                boolean thereIsAPieceThere = fenToPiecePictureRef.containsKey(pieceAtThisCell);
+                if (thereIsAPieceThere){
+                    drawPieceAt(pieceAtThisCell, file, rank);
+                }
+            }
+        }
     }
 
     /**
@@ -164,8 +161,8 @@ class BoardComponent extends Canvas {
     private static final int [] RANKS = new int[]{0,1,2,3,4,5,6,7};
     private static final int [] FILES = new int[]{0,1,2,3,4,5,6,7};
 
-    private static final char [] RANKS_COORDS = new char[]{'1', '2', '3', '4', '5', '6', '7', '8'};
-    private static final char [] FILES_COORDS = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+    private static final char [] RANKS_COORDS_CHARS = new char[]{'1', '2', '3', '4', '5', '6', '7', '8'};
+    private static final char [] FILES_COORDS_CHARS = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
     private static final HashMap<Character, String> fenToPiecePictureRef;
 
@@ -187,5 +184,4 @@ class BoardComponent extends Canvas {
     }
 
     private double cellsSize;
-
 }
