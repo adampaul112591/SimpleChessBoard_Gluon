@@ -117,8 +117,19 @@ class BoardComponent extends Canvas {
 
     private void drawPieces(){
         ///////////////TEMPORARY - should be replaced with generic code
-        drawPieceAt('N', 2, 3);
-        drawPieceAt('q', 7, 7);
+        drawPieceAt('p', 0, 7);
+        drawPieceAt('n', 1, 7);
+        drawPieceAt('b', 2, 7);
+        drawPieceAt('r', 3, 7);
+        drawPieceAt('q', 4, 7);
+        drawPieceAt('k', 5, 7);
+
+        drawPieceAt('P', 0, 6);
+        drawPieceAt('N', 1, 6);
+        drawPieceAt('B', 2, 6);
+        drawPieceAt('R', 3, 6);
+        drawPieceAt('Q', 4, 6);
+        drawPieceAt('K', 5, 6);
         ///////////////
     }
 
@@ -137,9 +148,10 @@ class BoardComponent extends Canvas {
             final SnapshotParameters snapshotParameters = new SnapshotParameters();
             final double pieceImageRatio = cellsSize * 1.0 / PIECE_IMAGES_SIZE;
             snapshotParameters.setTransform(new Scale(pieceImageRatio, pieceImageRatio));
+            snapshotParameters.setFill(Color.TRANSPARENT);
             final Image pieceImage = pieceSvg.snapshot(snapshotParameters, null);
-            final double x = 0.5*cellsSize + cellBigX*cellsSize;
-            final double y = 0.5*cellsSize + (7-cellBigY)*cellsSize;
+            final double x = 0.60*cellsSize + cellBigX*cellsSize;
+            final double y = 0.60*cellsSize + (7-cellBigY)*cellsSize;
 
             gc.drawImage(pieceImage, x, y);
         } catch (IOException e) {
