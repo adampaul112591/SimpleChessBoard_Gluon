@@ -17,25 +17,32 @@
  */
 package com.loloof64.gluon.simple_chess_board;
 
-import com.gluonhq.charm.glisten.application.MobileApplication;
-import com.gluonhq.charm.glisten.visual.Swatch;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
-public class SimpleChessBoard extends MobileApplication {
+/**
+ * The board component class.
+ */
+class BoardComponent extends Canvas {
 
-    private static final String BASIC_VIEW = HOME_VIEW;
+    BoardComponent(double cellsSize){
+        super(9*cellsSize, 9*cellsSize);
+        this.cellsSize = cellsSize;
 
-    @Override
-    public void init() {
-        addViewFactory(BASIC_VIEW, () -> new BasicView(BASIC_VIEW));
+        draw();
     }
 
-    @Override
-    public void postInit(Scene scene) {
-        Swatch.BLUE.assignTo(scene);
-
-        ((Stage) scene.getWindow()).getIcons().add(new Image(SimpleChessBoard.class.getResourceAsStream("/icon.png")));
+    private void draw(){
+        drawBackground();
     }
+
+    private void drawBackground(){
+        GraphicsContext gc = getGraphicsContext2D();
+        gc.setFill(Color.BLUEVIOLET);
+        gc.fillRect(0.0, 0.0, 9*cellsSize, 9*cellsSize);
+    }
+
+    private double cellsSize;
+
 }
