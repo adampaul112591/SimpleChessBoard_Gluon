@@ -45,6 +45,7 @@ class BoardComponent extends Canvas {
         drawBackground();
         drawCells();
         drawCoords();
+        drawPlayerTurn();
     }
 
     private void drawBackground(){
@@ -93,6 +94,21 @@ class BoardComponent extends Canvas {
             gc.fillText(String.format("%c", currentCoordChar), x, y1);
             gc.fillText(String.format("%c", currentCoordChar), x, y2);
         }
+    }
+
+    private void drawPlayerTurn(){
+        GraphicsContext gc = getGraphicsContext2D();
+        final double x = 8.5*cellsSize;
+        final double y = 8.5*cellsSize;
+
+        final boolean whiteTurn = true;
+        final Color turnColor = whiteTurn ? Color.WHITE : Color.BLACK;
+        gc.setFill(turnColor);
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(0.028*cellsSize);
+        gc.fillRect(x, y, cellsSize*0.5, cellsSize*0.5);
+        gc.rect(x, y, cellsSize*0.5, cellsSize*0.5);
+        gc.stroke();
     }
 
     private double cellsSize;
