@@ -17,22 +17,25 @@
  */
 package com.loloof64.gluon.simple_chess_board;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.transform.Scale;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * The board component class.
  */
 class BoardComponent extends Canvas {
-
-    private static final int [] RANKS = new int[]{0,1,2,3,4,5,6,7};
-    private static final int [] FILES = new int[]{0,1,2,3,4,5,6,7};
-
-    private static final char [] RANKS_COORDS = new char[]{'1', '2', '3', '4', '5', '6', '7', '8'};
-    private static final char [] FILES_COORDS = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
     BoardComponent(double cellsSize){
         super(9*cellsSize, 9*cellsSize);
@@ -46,6 +49,7 @@ class BoardComponent extends Canvas {
         drawCells();
         drawCoords();
         drawPlayerTurn();
+        drawPieces();
     }
 
     private void drawBackground(){
@@ -109,6 +113,65 @@ class BoardComponent extends Canvas {
         gc.fillRect(x, y, cellsSize*0.5, cellsSize*0.5);
         gc.rect(x, y, cellsSize*0.5, cellsSize*0.5);
         gc.stroke();
+    }
+
+    private void drawPieces(){
+        ///////////////TEMPORARY - should be replaced with generic code
+        drawPieceAt('N', 2, 3);
+        drawPieceAt('q', 7, 7);
+        ///////////////
+    }
+
+    /**
+     * Draws a piece at a particular cell.
+     * @param pieceFen - char - Forsyth-Edwards Notation of the piece.
+     * @param cellBigX - int - the cell coordinate : in [0,7], where 0 stands for file 'A'.
+     * @param cellBigY - int - the cell coordinate : in [0,7], where 0 stands for rank '1'.
+     */
+    private void drawPieceAt(char pieceFen, int cellBigX, int cellBigY){
+        GraphicsContext gc = getGraphicsContext2D();
+        if (!fenToPiecePictureRef.containsKey(pieceFen)) return;
+        final String pieceImageRef = fenToPiecePictureRef.get(pieceFen);
+        try {
+            final Node pieceSvg = FXMLLoader.load(getClass().getClassLoader().getResource(String.format("%s.fxml", pieceImageRef)));
+            final SnapshotParameters snapshotParameters = new SnapshotParameters();
+            final double pieceImageRatio = cellsSize * 1.0 / PIECE_IMAGES_SIZE;
+            snapshotParameters.setTransform(new Scale(pieceImageRatio, pieceImageRatio));
+            final Image pieceImage = pieceSvg.snapshot(snapshotParameters, null);
+            final double x = 0.5*cellsSize + cellBigX*cellsSize;
+            final double y = 0.5*cellsSize + (7-cellBigY)*cellsSize;
+
+            gc.drawImage(pieceImage, x, y);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static final int PIECE_IMAGES_SIZE = 45;
+
+    private static final int [] RANKS = new int[]{0,1,2,3,4,5,6,7};
+    private static final int [] FILES = new int[]{0,1,2,3,4,5,6,7};
+
+    private static final char [] RANKS_COORDS = new char[]{'1', '2', '3', '4', '5', '6', '7', '8'};
+    private static final char [] FILES_COORDS = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+
+    private static final HashMap<Character, String> fenToPiecePictureRef;
+
+    static {
+        fenToPiecePictureRef = new HashMap<>(12);
+        fenToPiecePictureRef.put('P', "pl");
+        fenToPiecePictureRef.put('N', "nl");
+        fenToPiecePictureRef.put('B', "bl");
+        fenToPiecePictureRef.put('R', "rl");
+        fenToPiecePictureRef.put('Q', "ql");
+        fenToPiecePictureRef.put('K', "kl");
+
+        fenToPiecePictureRef.put('p', "pd");
+        fenToPiecePictureRef.put('n', "nd");
+        fenToPiecePictureRef.put('b', "bd");
+        fenToPiecePictureRef.put('r', "rd");
+        fenToPiecePictureRef.put('q', "qd");
+        fenToPiecePictureRef.put('k', "kd");
     }
 
     private double cellsSize;
